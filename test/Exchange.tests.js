@@ -70,6 +70,34 @@ contract('Exchange contract', accounts => {
         }
       });
 
+      it("should abort deposit for invalid token address", async () => {
+        const depositAmount = utils.toBN(100000);
+        
+        const otherTokenContract = await TokenERC20.new("TokenC", "TKC", depositAmount);
+
+        try {
+            await exchangeContract.deposit(otherTokenContract.address, depositAmount);
+            throw "succeeded";
+        } 
+        catch (error) {
+            error.reason.should.equal("Unpermitted token");
+        }
+      });
+
+      it("should abort exchange for invalid token address", async () => {
+        const depositAmount = utils.toBN(100000);
+        
+        const otherTokenContract = await TokenERC20.new("TokenC", "TKC", depositAmount);
+
+        try {
+            await exchangeContract.exchange(otherTokenContract.address, depositAmount);
+            throw "succeeded";
+        } 
+        catch (error) {
+            error.reason.should.equal("Unpermitted token");
+        }
+      });
+
       it("should assign deposited tokens to contract address", async () => {
 
         const depositAmount = utils.toBN(100000);

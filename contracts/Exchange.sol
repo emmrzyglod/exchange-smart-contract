@@ -4,10 +4,6 @@ import "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-//TODO contract variables convention
-// External calls at the end of functions
-// Events for functions?
-// Użyj safe math lib
 contract Exchange is Ownable {
 
     IERC20 public tokenA;
@@ -23,18 +19,22 @@ contract Exchange is Ownable {
         tokenB = tokenB_;
     }
 
+    modifier allowedToken(IERC20 tokenAddresss) {
+        require(tokenAddresss == tokenA || tokenAddresss == tokenB, "Unpermitted token");
+        _;
+    }
+
     function updatePrice(uint256 price_) public onlyOwner {
         require(price_ > 0, "Price have to be higher than 0");
         price = price_;
     }
 
-    function deposit(IERC20 tokenAddress, uint256 amount) external onlyOwner {
+    function deposit(IERC20 tokenAddress, uint256 amount) external onlyOwner allowedToken(tokenAddress) {
         require(IERC20(tokenAddress).allowance(_msgSender(), address(this)) >= amount, "Insufficient balance");
         tokenAddress.transferFrom(_msgSender(), address(this), amount);
     }
 
-    function exchange(IERC20 tokenAddress, uint256 amount) external {
-        require(tokenAddress == tokenA || tokenAddress == tokenB, "Unpermitted token");
+    function exchange(IERC20 tokenAddress, uint256 amount) external allowedToken(tokenAddress) {
         
         IERC20 secondToken;
         uint256 exchangedAmount;
