@@ -1,0 +1,24 @@
+{
+  "name": "rumblefish_excercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.3.3",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^3.0.0",
+    "eth-gas-reporter": "^0.2.22",
+    "ganache-cli": "^6.12.2",
+    "solc": "^0.8.9",
+    "web3": "^1.6.0"
+  },
+  "devDependencies": {
+    "truffle-test-utils": "^0.1.0"
+  }
+}
