@@ -10,8 +10,8 @@ require('chai').should();
 
 contract('Exchange contract', accounts => {
 
-    const totalSupplyA = utils.toBN(utils.toWei("180000000", 'ether'));
-    const totalSupplyB = utils.toBN(utils.toWei("360000000", 'ether'));
+    const totalSupplyA = utils.toBN(utils.toWei("80000000", 'ether'));
+    const totalSupplyB = utils.toBN(utils.toWei("60000000", 'ether'));
 
     const initialPrice = utils.toBN(10);
 
@@ -112,6 +112,10 @@ contract('Exchange contract', accounts => {
       it("should transfer to user proper value of tokens", async () => {
         
         const user = accounts[1];
+
+        await tokenAContract.mint(utils.toBN(utils.toWei("100000000", 'ether')));
+        await tokenBContract.mint(utils.toBN(utils.toWei("300000000", 'ether')));
+
         const res = await tokenAContract.approve(exchangeContract.address, totalSupplyA.div(utils.toBN(2)));
         
         await tokenBContract.approve(exchangeContract.address, totalSupplyB.div(utils.toBN(2)));
